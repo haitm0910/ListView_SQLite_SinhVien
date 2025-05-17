@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFFFF"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+
+    <!-- Thanh tiêu đề -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="47dp"
+        android:background="#8BC34A">
+
+        <!-- TextView nằm giữa -->
+        <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="Danh sách sinh viên"
+            android:textColor="#FAF5F5"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:layout_centerInParent="true" />
+
+        <!-- Nút dấu cộng nằm góc phải -->
+        <ImageButton
+            android:id="@+id/btnAddSinhVien"
+            android:layout_width="61dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="8dp"
+            android:background="@android:color/transparent"
+            android:contentDescription="Thêm sinh viên"
+            android:src="@android:drawable/ic_input_add"
+            app:tint="#FFFFFF" />
+    </RelativeLayout>
+
+    <!-- ListView hiển thị danh sách sinh viên -->
+    <ListView
+        android:id="@+id/lv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+</LinearLayout>

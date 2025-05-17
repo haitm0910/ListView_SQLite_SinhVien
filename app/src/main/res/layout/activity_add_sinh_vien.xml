@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFFFF"
+    android:orientation="vertical"
+    android:padding="16dp"
+    tools:context=".addSinhVien">
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="47dp"
+        android:background="#8BC34A"
+        android:gravity="center"
+        android:text="Thêm sinh viên"
+        android:textAllCaps="false"
+        android:textColor="#FAF5F5"
+        android:textSize="24sp"
+        android:textStyle="bold" />
+
+    <FrameLayout
+        android:id="@+id/avatarContainer"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="24dp"
+        android:background="@drawable/circle_background">
+
+        <ImageView
+            android:id="@+id/imgAvatar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToOutline="true"
+            android:scaleType="centerCrop" />
+
+        <TextView
+            android:id="@+id/tvChooseAvatar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="Chọn ảnh"
+            android:textColor="#666666"
+            android:textStyle="bold" />
+    </FrameLayout>
+
+
+    <EditText
+        android:id="@+id/edtHoTen"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:hint="Họ tên" />
+
+    <EditText
+        android:id="@+id/edtMssv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:hint="MSSV" />
+
+    <EditText
+        android:id="@+id/edtChuyenNganh"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:hint="Chuyên ngành" />
+
+    <EditText
+        android:id="@+id/edtNgaySinh"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:hint="Ngày sinh" />
+
+    <EditText
+        android:id="@+id/edtKhoaHoc"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:hint="Khóa học" />
+
+    <Button
+        android:id="@+id/btnLuu"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="Lưu" />
+</LinearLayout>
