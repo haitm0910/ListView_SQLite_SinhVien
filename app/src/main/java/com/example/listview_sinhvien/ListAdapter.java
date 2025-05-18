@@ -117,10 +117,7 @@ public class ListAdapter extends ArrayAdapter<SinhVien> {
 
     // Phương thức để cập nhật dữ liệu cho adapter
     public void updateData(ArrayList<SinhVien> newSinhVienList) {
-        // Xóa dữ liệu cũ trong danh sách mà adapter đang giữ
-        // this.sinhVienList.clear(); // Không nên clear trực tiếp list được truyền từ ngoài vào
-        // mà nên tạo một bản sao hoặc để Activity quản lý việc clear list gốc.
-        // Cách an toàn hơn là super.clear() rồi super.addAll()
+
         super.clear(); // Xóa các item hiện tại của ArrayAdapter
 
         // Thêm tất cả dữ liệu mới vào

@@ -7,7 +7,7 @@ public class SinhVien implements Serializable {
     private int id;
     private String hoTen;
     private String mssv;
-    private String avatarPath; // ĐÃ THAY ĐỔI: từ int sang String
+    private String avatarPath;
     private String chuyenNganh;
     private String ngaySinh;
     private String khoaHoc;
@@ -17,7 +17,7 @@ public class SinhVien implements Serializable {
         this.id = id;
         this.hoTen = hoTen;
         this.mssv = mssv;
-        this.avatarPath = avatarPath; // ĐÃ THAY ĐỔI: tham số này giờ là String
+        this.avatarPath = avatarPath;
         this.chuyenNganh = chuyenNganh;
         this.ngaySinh = ngaySinh;
         this.khoaHoc = khoaHoc;
@@ -33,7 +33,6 @@ public class SinhVien implements Serializable {
     public String getMssv() { return mssv; }
     public void setMssv(String mssv) { this.mssv = mssv; }
 
-    // ĐÃ THAY ĐỔI: Getter và Setter cho avatarPath (String)
     public String getAvatarPath() { return avatarPath; }
     public void setAvatarPath(String avatarPath) { this.avatarPath = avatarPath; }
 

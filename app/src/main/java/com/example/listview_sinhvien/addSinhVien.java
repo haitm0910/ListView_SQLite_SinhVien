@@ -37,28 +37,27 @@ import java.util.Locale;
 
 public class addSinhVien extends AppCompatActivity {
 
-    private static final String TAG = "AddEditSinhVienActivity"; // Đổi tên TAG cho rõ ràng
+    private static final String TAG = "AddEditSinhVienActivity";
 
     private ImageView imgAvatar;
     private TextView tvChooseAvatar;
     private EditText edtHoTen, edtMssv, edtChuyenNganh, edtNgaySinh, edtKhoaHoc;
-    private Button btnLuu; // Sẽ đổi text thành "Cập nhật" nếu ở chế độ sửa
+    private Button btnLuu;
 
-    private String currentAvatarPath = null; // Lưu đường dẫn file ảnh hiện tại (mới chọn hoặc từ sinh viên đang sửa)
+    private String currentAvatarPath = null;
     private ActivityResultLauncher<Intent> pickImageLauncher;
 
     private Database databaseHelper;
-    private boolean isEditMode = false; // Cờ xác định chế độ: true = sửa, false = thêm mới
-    private int studentIdToEdit = -1; // ID của sinh viên cần sửa, -1 nếu là thêm mới
-    private SinhVien currentEditingStudent = null; // Giữ tham chiếu đến đối tượng sinh viên đang được chỉnh sửa
+    private boolean isEditMode = false;
+    private int studentIdToEdit = -1;
+    private SinhVien currentEditingStudent = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_sinh_vien); // Đảm bảo layout này tồn tại
+        setContentView(R.layout.activity_add_sinh_vien);
 
-        // Xử lý WindowInsets nếu bạn dùng EdgeToEdge
-        // Đảm bảo R.id.main là ID của layout gốc trong activity_add_sinh_vien.xml
+
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
@@ -68,10 +67,7 @@ public class addSinhVien extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
-            // Tiêu đề sẽ được đặt lại dựa trên chế độ (thêm/sửa)
         }
-
-        // Ánh xạ Views
         imgAvatar = findViewById(R.id.imgAvatar);
         tvChooseAvatar = findViewById(R.id.tvChooseAvatar);
         edtHoTen = findViewById(R.id.edtHoTen);
@@ -83,7 +79,6 @@ public class addSinhVien extends AppCompatActivity {
 
         databaseHelper = new Database(this);
 
-        // Khởi tạo ActivityResultLauncher để chọn ảnh
         pickImageLauncher = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
                 result -> {
@@ -91,10 +86,9 @@ public class addSinhVien extends AppCompatActivity {
                         Uri imageUri = result.getData().getData();
                         if (imageUri != null) {
                             try {
-                                // Lưu ảnh mới vào bộ nhớ trong và cập nhật currentAvatarPath
+
                                 currentAvatarPath = saveImageToInternalStorage(imageUri);
 
-                                // Hiển thị ảnh đã chọn
                                 InputStream imageStream = getContentResolver().openInputStream(imageUri);
                                 Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
                                 imgAvatar.setImageBitmap(selectedImage);
@@ -107,7 +101,6 @@ public class addSinhVien extends AppCompatActivity {
                             } catch (IOException e) {
                                 Log.e(TAG, "Lỗi khi xử lý hoặc lưu ảnh mới: " + e.getMessage(), e);
                                 Toast.makeText(this, "Không thể tải hoặc lưu ảnh mới", Toast.LENGTH_SHORT).show();
-                                // Nếu đang sửa và có lỗi khi chọn ảnh mới, khôi phục path ảnh cũ (nếu có)
                                 if (isEditMode && currentEditingStudent != null) {
                                     currentAvatarPath = currentEditingStudent.getAvatarPath();
                                 } else {
@@ -119,12 +112,10 @@ public class addSinhVien extends AppCompatActivity {
                 }
         );
 
-        // Sự kiện click để chọn ảnh
         View.OnClickListener chooseImageListener = v -> openImageChooser();
         tvChooseAvatar.setOnClickListener(chooseImageListener);
         imgAvatar.setOnClickListener(chooseImageListener);
 
-        // Kiểm tra Intent để xác định chế độ Thêm mới hay Chỉnh sửa
         Intent intent = getIntent();
         if (intent != null && intent.hasExtra("STUDENT_ID_TO_EDIT")) {
             studentIdToEdit = intent.getIntExtra("STUDENT_ID_TO_EDIT", -1);
@@ -132,32 +123,27 @@ public class addSinhVien extends AppCompatActivity {
                 isEditMode = true;
                 if (actionBar != null) actionBar.setTitle("Sửa Thông Tin Sinh Viên");
                 btnLuu.setText("Cập nhật");
-                loadStudentDataForEditing(studentIdToEdit); // Tải dữ liệu sinh viên lên form
+                loadStudentDataForEditing(studentIdToEdit);
             } else {
-                // Trường hợp STUDENT_ID_TO_EDIT là -1 (không hợp lệ), coi như thêm mới
                 isEditMode = false;
                 if (actionBar != null) actionBar.setTitle("Thêm Sinh Viên Mới");
                 btnLuu.setText("Lưu");
             }
         } else {
-            // Không có STUDENT_ID_TO_EDIT -> chế độ thêm mới
             isEditMode = false;
             if (actionBar != null) actionBar.setTitle("Thêm Sinh Viên Mới");
             btnLuu.setText("Lưu");
         }
 
-        // Sự kiện click cho nút Lưu/Cập nhật
         btnLuu.setOnClickListener(v -> saveOrUpdateStudent());
     }
 
-    // Tải dữ liệu của sinh viên lên form khi ở chế độ chỉnh sửa
     private void loadStudentDataForEditing(int studentId) {
         Log.d(TAG, "Đang tải dữ liệu để sửa cho sinh viên ID: " + studentId);
         currentEditingStudent = databaseHelper.getStudentById(studentId); // Cần có phương thức này trong Database.java
         if (currentEditingStudent != null) {
             edtHoTen.setText(currentEditingStudent.getHoTen());
             edtMssv.setText(currentEditingStudent.getMssv());
-            // edtMssv.setEnabled(false); // Tùy chọn: không cho phép sửa MSSV
             edtChuyenNganh.setText(currentEditingStudent.getChuyenNganh());
             edtNgaySinh.setText(currentEditingStudent.getNgaySinh());
             edtKhoaHoc.setText(currentEditingStudent.getKhoaHoc());
@@ -190,7 +176,6 @@ public class addSinhVien extends AppCompatActivity {
         }
     }
 
-    // Xử lý việc lưu sinh viên mới hoặc cập nhật sinh viên hiện tại
     private void saveOrUpdateStudent() {
         String hoTen = edtHoTen.getText().toString().trim();
         String mssv = edtMssv.getText().toString().trim();

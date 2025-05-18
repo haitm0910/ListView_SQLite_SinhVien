@@ -130,8 +130,6 @@ public class MainActivity extends AppCompatActivity {
                 .setPositiveButton("Xóa", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
                         Log.i(TAG, "Xác nhận xóa sinh viên: " + sinhVien.getHoTen());
-                        // Gọi phương thức xóa trong DatabaseHelper
-                        // Giả sử Database.java có phương thức deleteSinhVien(int id)
                         databaseHelper.deleteSinhVien(sinhVien.getId());
                         Toast.makeText(MainActivity.this, "Đã xóa: " + sinhVien.getHoTen(), Toast.LENGTH_SHORT).show();
                         loadDataAndUpdateListView(); // Làm mới danh sách sau khi xóa
@@ -168,8 +166,6 @@ public class MainActivity extends AppCompatActivity {
         }
 
         if (this.sinhVienList.isEmpty()) {
-            // Chỉ hiển thị Toast nếu danh sách thực sự trống và adapter đã được thông báo
-            // Tránh hiển thị Toast khi Activity mới khởi tạo và adapter chưa có dữ liệu
             if (sinhVienAdapter.getCount() == 0) { // Kiểm tra số lượng item trong adapter
                 Toast.makeText(this, "Chưa có sinh viên nào. Hãy thêm mới!", Toast.LENGTH_SHORT).show();
             }

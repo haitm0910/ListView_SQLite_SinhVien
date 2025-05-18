@@ -82,7 +82,6 @@ public class ChiTiet extends AppCompatActivity {
         } else {
             Toast.makeText(this, "Không nhận được dữ liệu sinh viên.", Toast.LENGTH_LONG).show();
             Log.e(TAG, "Đối tượng SinhVien (sv) là null.");
-            // finish(); // Có thể đóng Activity nếu không có dữ liệu
         }
     }
 

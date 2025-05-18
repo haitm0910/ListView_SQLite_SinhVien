@@ -13,7 +13,7 @@ public class Database extends SQLiteOpenHelper {
 
     private static final String TAG = "DatabaseHelper";
     private static final String DATABASE_NAME = "QuanLySinhVien.db";
-    private static final int DATABASE_VERSION = 2; // Giữ nguyên hoặc tăng nếu có thay đổi schema khác
+    private static final int DATABASE_VERSION = 2; 
 
     private static final String TABLE_SINHVIEN = "SinhVien";
     private static final String COLUMN_ID = "id";
